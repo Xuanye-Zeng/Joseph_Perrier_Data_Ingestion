@@ -12,22 +12,22 @@
 
 ```bash
 # Install Python dependencies
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 playwright install chromium
 
 # Run the full pipeline (scrape → parse → translate → store)
-python scripts/run_pipeline.py
+python3 scripts/run_pipeline.py
 
 # Enrich product gallery images
-python scripts/enrich_gallery.py
+python3 scripts/enrich_gallery.py
 
 # Inspect the database
-python scripts/inspect_db.py stats
-python scripts/inspect_db.py products
-python scripts/inspect_db.py product "Cuvée Royale Brut"
+python3 scripts/inspect_db.py stats
+python3 scripts/inspect_db.py products
+python3 scripts/inspect_db.py product "Cuvée Royale Brut"
 
 # Start the web UI (serves API + frontend on one port)
-python api.py
+python3 api.py
 # → Open http://localhost:8000
 ```
 
@@ -135,14 +135,14 @@ Design: warm cream palette, Playfair Display serif headings, Inter sans-serif bo
 ## CLI Inspection
 
 ```bash
-python scripts/inspect_db.py stats                           # Database summary
-python scripts/inspect_db.py winery                          # Winery info
-python scripts/inspect_db.py products                        # All products with prices
-python scripts/inspect_db.py product "Cuvée Royale Brut"     # Full product detail
-python scripts/inspect_db.py media --product "Joséphine"     # Media for a product
-python scripts/inspect_db.py history                         # Timeline (1825–2025)
-python scripts/inspect_db.py team                            # Family members
-python scripts/inspect_db.py articles                        # Blog articles
+python3 scripts/inspect_db.py stats                           # Database summary
+python3 scripts/inspect_db.py winery                          # Winery info
+python3 scripts/inspect_db.py products                        # All products with prices
+python3 scripts/inspect_db.py product "Cuvée Royale Brut"     # Full product detail
+python3 scripts/inspect_db.py media --product "Joséphine"     # Media for a product
+python3 scripts/inspect_db.py history                         # Timeline (1825–2025)
+python3 scripts/inspect_db.py team                            # Family members
+python3 scripts/inspect_db.py articles                        # Blog articles
 ```
 
 ## API Endpoints
