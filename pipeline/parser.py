@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup, Tag
 
-from src.models import (
+from pipeline.models import (
     Winery,
     WineryHistory,
     TeamMember,
@@ -970,7 +970,7 @@ class JosephPerrierParser:
 
     def parse_technical_specs(self, html: str) -> 'ProductTechnical':
         """Extract technical specifications from a product page."""
-        from src.models import ProductTechnical
+        from pipeline.models import ProductTechnical
         soup = self._soup(html)
         tech = ProductTechnical()
         text = soup.get_text(separator=' | ')
@@ -1021,7 +1021,7 @@ class JosephPerrierParser:
 
     def parse_awards(self, html: str) -> list:
         """Extract awards and ratings from a product page."""
-        from src.models import ProductAward
+        from pipeline.models import ProductAward
         soup = self._soup(html)
         awards = []
         text = soup.get_text('\n')

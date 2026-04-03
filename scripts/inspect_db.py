@@ -1,8 +1,8 @@
 """
-inspect_db.py — CLI tool to inspect the Joseph Perrier SQLite database.
+CLI tool to inspect the Joseph Perrier SQLite database.
 
 Usage:
-    python inspect_db.py winery                     # Winery info
+    python scripts/inspect_db.py winery                     # Winery info
     python inspect_db.py products                   # List all products
     python inspect_db.py product "Cuvée Royale"     # Product details
     python inspect_db.py media                      # All media

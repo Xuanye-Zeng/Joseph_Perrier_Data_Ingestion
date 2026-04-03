@@ -1,20 +1,23 @@
 """
-main.py — Entry point for the Joseph Perrier data ingestion pipeline.
+Entry point for the Joseph Perrier data ingestion pipeline.
 
-Orchestrates: scrape -> parse -> store -> summary.
+Orchestrates: scrape -> parse -> translate -> store.
 
 Usage:
-    python main.py
+    python scripts/run_pipeline.py
 """
 
 import asyncio
 import os
 import sys
 
-from src.scraper import JosephPerrierScraper
-from src.parser import JosephPerrierParser
-from src.database import Database
-from src.translator import ContentTranslator
+# Ensure project root is in path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from pipeline.scraper import JosephPerrierScraper
+from pipeline.parser import JosephPerrierParser
+from pipeline.database import Database
+from pipeline.translator import ContentTranslator
 
 
 def find_page(pages: dict, keyword: str, exact: bool = False) -> str | None:

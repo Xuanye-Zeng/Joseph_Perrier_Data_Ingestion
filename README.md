@@ -16,15 +16,15 @@ pip install -r requirements.txt
 playwright install chromium
 
 # Run the full pipeline (scrape → parse → translate → store)
-python main.py
+python scripts/run_pipeline.py
 
 # Enrich product gallery images
-python add_gallery_images.py
+python scripts/enrich_gallery.py
 
 # Inspect the database
-python inspect_db.py stats
-python inspect_db.py products
-python inspect_db.py product "Cuvée Royale Brut"
+python scripts/inspect_db.py stats
+python scripts/inspect_db.py products
+python scripts/inspect_db.py product "Cuvée Royale Brut"
 
 # Start the web UI (serves API + frontend on one port)
 python api.py
@@ -104,39 +104,45 @@ Design: warm cream palette, Playfair Display serif headings, Inter sans-serif bo
 ## Project Structure
 
 ```
-├── main.py                    # Pipeline orchestrator: scrape → parse → translate → store
-├── api.py                     # FastAPI backend (8 endpoints + static SPA serving)
-├── inspect_db.py              # CLI tool for database inspection
-├── add_gallery_images.py      # Curated image enrichment script
-├── requirements.txt           # Python dependencies
-├── src/
-│   ├── scraper.py             # Playwright async scraper with age gate handling
-│   ├── parser.py              # BeautifulSoup extraction (products, awards, tech specs)
-│   ├── database.py            # SQLite schema + full CRUD with cascading inserts
-│   ├── models.py              # 11 Python dataclasses mirroring DB schema
-│   └── translator.py          # French→English post-processing translation
-├── data/
-│   └── joseph_perrier.db      # Generated SQLite database
-└── frontend/
+├── README.md
+├── requirements.txt
+├── api.py                         # FastAPI backend (8 endpoints + static SPA serving)
+│
+├── pipeline/                      # Core data pipeline
+│   ├── scraper.py                 # Playwright async scraper with age gate handling
+│   ├── parser.py                  # BeautifulSoup extraction (products, awards, tech specs)
+│   ├── database.py                # SQLite schema (11 tables) + full CRUD
+│   ├── models.py                  # Python dataclasses mirroring DB schema
+│   └── translator.py              # French→English post-processing translation
+│
+├── scripts/                       # Executable scripts
+│   ├── run_pipeline.py            # Pipeline orchestrator: scrape → parse → translate → store
+│   ├── enrich_gallery.py          # Curated image enrichment
+│   └── inspect_db.py              # CLI tool for database inspection
+│
+├── data/                          # Generated output
+│   └── joseph_perrier.db          # SQLite database
+│
+└── frontend/                      # React + Tailwind web UI
     ├── src/
-    │   ├── App.jsx            # Main app with tab navigation
-    │   ├── api.js             # API client (fetch wrapper)
-    │   └── components/        # ProductGrid, ProductDetail, WineryView, etc.
-    ├── vite.config.js         # Vite + Tailwind + API proxy
-    └── dist/                  # Production build (served by api.py)
+    │   ├── App.jsx                # Main app with tab navigation
+    │   ├── api.js                 # API client (fetch wrapper)
+    │   └── components/            # ProductGrid, ProductDetail, WineryView, etc.
+    ├── vite.config.js             # Vite + Tailwind + API proxy
+    └── dist/                      # Production build (served by api.py)
 ```
 
 ## CLI Inspection
 
 ```bash
-python inspect_db.py stats                           # Database summary
-python inspect_db.py winery                          # Winery info
-python inspect_db.py products                        # All products with prices
-python inspect_db.py product "Cuvée Royale Brut"     # Full product detail
-python inspect_db.py media --product "Joséphine"     # Media for a product
-python inspect_db.py history                         # Timeline (1825–2025)
-python inspect_db.py team                            # Family members
-python inspect_db.py articles                        # Blog articles
+python scripts/inspect_db.py stats                           # Database summary
+python scripts/inspect_db.py winery                          # Winery info
+python scripts/inspect_db.py products                        # All products with prices
+python scripts/inspect_db.py product "Cuvée Royale Brut"     # Full product detail
+python scripts/inspect_db.py media --product "Joséphine"     # Media for a product
+python scripts/inspect_db.py history                         # Timeline (1825–2025)
+python scripts/inspect_db.py team                            # Family members
+python scripts/inspect_db.py articles                        # Blog articles
 ```
 
 ## API Endpoints
