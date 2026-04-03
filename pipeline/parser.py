@@ -32,7 +32,6 @@ _SLUG_TO_NAME = {
     "la-cote-a-bras-2016": "La Côte à Bras 2016",
     "josephine-2014": "Joséphine 2014",
     "cuvee-200": "Cuvée 200",
-    "caisse-decouverte": "Caisse Découverte",
 }
 
 

@@ -29,7 +29,6 @@ COLLECTION_COLORS: Dict[str, Dict[str, str]] = {
     "Joséphine": {"bg": "#1a1410", "accent": "#c9a96e", "card_bg": "#f5efe5"},
     "Parcellaire": {"bg": "#1a1814", "accent": "#a89278", "card_bg": "#f2ede6"},
     "Cuvée 200": {"bg": "#141017", "accent": "#c9a96e", "card_bg": "#f0ece5"},
-    "Gift Set": {"bg": "#1a1714", "accent": "#c9a96e", "card_bg": "#f5f0e8"},
 }
 
 DEFAULT_THEME = THEME_COLORS["Brut"]
@@ -61,7 +60,6 @@ PRODUCT_IMAGE_PATTERNS: Dict[str, list] = {
     "La Côte à Bras 2016": ["CAB-SITE", "CAB_SITE", "Cote-a-Bras"],
     "Joséphine 2014": ["Josephine", "josephine"],
     "Cuvée 200": ["cuvee-200", "200-ANS", "Magnum-cuvee-200"],
-    "Caisse Découverte": ["caisse", "discovery"],
 }
 
 

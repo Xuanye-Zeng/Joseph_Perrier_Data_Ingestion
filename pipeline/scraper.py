@@ -42,7 +42,6 @@ PRODUCT_PATHS = [
     "/en/champagnes-et-cuvees/la-cote-a-bras-2016/",
     "/en/champagnes-et-cuvees/josephine-2014/",
     "/en/champagnes-et-cuvees/cuvee-200/",
-    "/en/champagnes-et-cuvees/caisse-decouverte/",
 ]
 
 BLOG_PATH = "/en/jojo-mag/"

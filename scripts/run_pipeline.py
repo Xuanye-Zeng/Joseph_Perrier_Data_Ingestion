@@ -156,7 +156,6 @@ async def main():
         "La Côte à Bras 2016": 87.50,
         "Joséphine 2014": 165.00,
         "Cuvée 200": 295.00,
-        "Caisse Découverte": 199.00,
     }
 
     eshop_html = find_page(pages, "e-shop")
