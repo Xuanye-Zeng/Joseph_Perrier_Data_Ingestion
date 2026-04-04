@@ -13,14 +13,23 @@ function getCategoryColor(category) {
   return CATEGORY_COLORS[key] || 'var(--jp-text-secondary)';
 }
 
-const EXCLUDED_TITLES = ['customizedevents', 'where to find us', 'le pavillon 1825', 'terms and conditions'];
+const EXCLUDED_TITLES = [
+  'customizedevents', 'customized events', 'where to find us', 'le pavillon 1825',
+  'terms and conditions', 'événementssur mesure', 'où nous trouver',
+  'où nous trouver ?', 'evenementssur mesure',
+];
 
 export default function ArticlesView({ articles }) {
   const validArticles = (articles || []).filter(a =>
     a.title &&
     a.title.length > 15 &&
     !EXCLUDED_TITLES.includes(a.title.toLowerCase().trim())
-  );
+  ).sort((a, b) => {
+    // Articles with images first, without images last
+    const aHas = a.image_url ? 0 : 1;
+    const bHas = b.image_url ? 0 : 1;
+    return aHas - bHas;
+  });
 
   const [visibleCount, setVisibleCount] = useState(12);
   const visibleArticles = validArticles.slice(0, visibleCount);

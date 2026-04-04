@@ -245,6 +245,9 @@ def products(
         # Attach best product image
         media = db.get_media(product_id=p["id"])
         p["image_url"] = _find_best_image(media, p.get("name", ""))
+        # Attach cinemagraph video URL if available
+        video = next((m for m in media if m.get("context") == "product_cinemagraph"), None)
+        p["video_url"] = video["url"] if video else None
 
     return results
 
@@ -259,6 +262,13 @@ def product_detail(product_id: int, db: Database = Depends(get_db)) -> Dict[str,
     # Filter media to only product-specific images
     result["media"] = _filter_product_media(result.get("media", []), result.get("name", ""))
     # Awards come from product_award table via get_product_detail()
+
+    # For gift sets, include the list of contained products
+    if result.get("collection") == "Gift Set":
+        included = db.conn.execute(
+            "SELECT name, price_eur, collection FROM product WHERE collection = 'Cuvée Royale' ORDER BY sort_order"
+        ).fetchall()
+        result["included_products"] = [dict(r) for r in included]
 
     if "tasting_notes" in result:
         for note in result["tasting_notes"]:

@@ -323,6 +323,8 @@ def cmd_stats(conn: sqlite3.Connection):
         ("tasting_note", "Tasting Notes"),
         ("food_pairing", "Food Pairings"),
         ("product_format", "Product Formats"),
+        ("product_technical", "Technical Specs"),
+        ("product_award", "Awards"),
         ("media", "Media Items"),
         ("article", "Articles"),
     ]

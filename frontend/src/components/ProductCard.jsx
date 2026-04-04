@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 const ChampagneBottleSVG = () => (
   <svg
@@ -48,6 +48,26 @@ export default function ProductCard({ product, onClick }) {
   } = product;
 
   const imageUrl = product.image_url || (media && media.length > 0 ? media[0].url || media[0] : null);
+  const videoUrl = product.video_url;
+  const videoRef = useRef(null);
+  const [hovering, setHovering] = useState(false);
+
+  const handleMouseEnter = (e) => {
+    e.currentTarget.style.borderColor = 'var(--jp-gold)';
+    if (videoUrl && videoRef.current) {
+      setHovering(true);
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.borderColor = 'var(--jp-dark-border)';
+    if (videoRef.current) {
+      setHovering(false);
+      videoRef.current.pause();
+    }
+  };
 
   return (
     <div
@@ -59,12 +79,8 @@ export default function ProductCard({ product, onClick }) {
         borderRadius: '12px',
         transition: 'border-color 0.3s',
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = 'var(--jp-gold)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'var(--jp-dark-border)';
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Limited Edition Badge */}
       {(!!is_limited_edition || is_limited_edition === 1) && (
@@ -82,24 +98,48 @@ export default function ProductCard({ product, onClick }) {
         </span>
       )}
 
-      {/* Image Area */}
+      {/* Image / Video Area */}
       <div
         className="flex items-center justify-center"
         style={{
           position: 'relative',
           height: '200px',
           backgroundColor: 'var(--jp-black)',
+          overflow: 'hidden',
         }}
       >
+        {/* Static image (always rendered, hidden when hovering with video) */}
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={name}
             className="w-full h-full"
-            style={{ objectFit: 'contain' }}
+            style={{
+              objectFit: 'contain',
+              opacity: hovering && videoUrl ? 0 : 1,
+              transition: 'opacity 0.3s',
+            }}
           />
         ) : (
           <ChampagneBottleSVG />
+        )}
+
+        {/* Video overlay (preloaded, shown on hover) */}
+        {videoUrl && (
+          <video
+            ref={videoRef}
+            src={videoUrl}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full"
+            style={{
+              objectFit: 'cover',
+              opacity: hovering ? 1 : 0,
+              transition: 'opacity 0.3s',
+            }}
+          />
         )}
       </div>
 

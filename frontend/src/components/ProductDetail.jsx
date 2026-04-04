@@ -39,8 +39,9 @@ export default function ProductDetail({ product, onClose }) {
   const {
     name, collection, grape_blend, price_eur,
     description, tasting_notes, food_pairings, formats, media,
-    source_url, image_url, awards, technical,
+    source_url, image_url, awards, technical, included_products,
   } = product;
+  const isGiftSet = collection === 'Gift Set';
 
   const uniqueMedia = getUniqueMedia(media, SHARED_PATTERNS);
 
@@ -119,8 +120,49 @@ export default function ProductDetail({ product, onClose }) {
           </p>
         )}
 
-        {/* Grape Blend */}
-        {grape_blend && (
+        {/* Gift Set: Included Products */}
+        {isGiftSet && included_products && included_products.length > 0 && (
+          <>
+            <Divider />
+            <p className="text-[10px] uppercase font-semibold mb-4"
+              style={{ letterSpacing: '2px', color: 'var(--jp-gold)', fontFamily: "'Inter', sans-serif" }}>
+              Included Champagnes (6 × 750ml)
+            </p>
+            <div className="space-y-2">
+              {included_products.map((ip, idx) => (
+                <div key={idx} className="flex justify-between items-center py-2"
+                  style={{ borderBottom: idx < included_products.length - 1 ? '0.5px solid var(--jp-dark-border)' : 'none' }}>
+                  <span className="text-sm" style={{ color: 'var(--jp-text-primary)', fontFamily: "'Inter', sans-serif" }}>
+                    {ip.name}
+                  </span>
+                  <span className="text-sm" style={{ color: 'var(--jp-gold)', fontFamily: "'Playfair Display', serif" }}>
+                    {ip.price_eur ? `€${Number(ip.price_eur).toFixed(2)}` : ''}
+                  </span>
+                </div>
+              ))}
+              <div className="flex justify-between items-center pt-3 mt-2"
+                style={{ borderTop: '1px solid var(--jp-dark-border)' }}>
+                <span className="text-sm font-medium" style={{ color: 'var(--jp-text-primary)', fontFamily: "'Inter', sans-serif" }}>
+                  Individual total
+                </span>
+                <span className="text-sm line-through" style={{ color: 'var(--jp-text-muted)', fontFamily: "'Playfair Display', serif" }}>
+                  €{included_products.reduce((sum, ip) => sum + (ip.price_eur || 0), 0).toFixed(2)}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold" style={{ color: 'var(--jp-gold)', fontFamily: "'Inter', sans-serif" }}>
+                  Discovery Box price
+                </span>
+                <span className="text-lg font-bold" style={{ color: 'var(--jp-gold)', fontFamily: "'Playfair Display', serif" }}>
+                  {formatPrice(price_eur)}
+                </span>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Grape Blend (skip for gift sets) */}
+        {!isGiftSet && grape_blend && (
           <>
             <Divider />
             <p className="text-[10px] uppercase font-semibold mb-2"
@@ -133,8 +175,8 @@ export default function ProductDetail({ product, onClose }) {
           </>
         )}
 
-        {/* Technical Details */}
-        {technical && (technical.aging_months || technical.dosage_gl != null || technical.reserve_wines_pct || technical.serving_temp_min || technical.aging_potential || technical.crus) && (
+        {/* Technical Details (skip for gift sets) */}
+        {!isGiftSet && technical && (technical.aging_months || technical.dosage_gl != null || technical.reserve_wines_pct || technical.serving_temp_min || technical.aging_potential || technical.crus) && (
           <>
             <Divider />
             <p className="text-[10px] uppercase font-semibold mb-4"
@@ -212,8 +254,8 @@ export default function ProductDetail({ product, onClose }) {
           </>
         )}
 
-        {/* Awards & Ratings */}
-        {awards && awards.length > 0 && (
+        {/* Awards & Ratings (skip for gift sets) */}
+        {!isGiftSet && awards && awards.length > 0 && (
           <>
             <Divider />
             <p className="text-[10px] uppercase font-semibold mb-4"
@@ -257,8 +299,8 @@ export default function ProductDetail({ product, onClose }) {
           </>
         )}
 
-        {/* Tasting Notes */}
-        {tastingEntries.length > 0 && (
+        {/* Tasting Notes (skip for gift sets) */}
+        {!isGiftSet && tastingEntries.length > 0 && (
           <>
             <Divider />
             <p className="text-[10px] uppercase font-semibold mb-4"
